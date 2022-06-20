@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" id="top">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SRTE - Check</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'written_expression/style.css' %}">
+</head>
+
+<body id="body">
+    <div style="display:none;" id="hide">
+        {% csrf_token %}
+            {% for question, ans in Qa %}
+            <p class="question">{{ question.question }}</p>
+            {% if ans == True %}
+                <span class="correct">Correct</span>
+            {% else %}
+                <span class="incorMsg">
+                You selected <span class="selected">"{{ ans.0 }}"</span>, but the correct answer was
+                <span class="corans">"{{ ans.1 }}"</span>
+                </span>
+            {% endif %}
+            <br/>
+            <br/>
+        {% endfor %}
+        <strong>{{ time_msg }}</strong>
+        </div>
+        <script src="{% static 'written_expression/script.js' %}"></script>
+        <script>
+            underline();
+            scroll(0,0);
+        </script>
+        <form action="{% url 'written_expression:quantity' %}">
+            <button>Take another test</button>
+        </form>
+</body>
+
+</html>

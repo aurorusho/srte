@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" id="top">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SRTE - Questions</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'written_expression/style.css' %}">
+</head>
+
+<body id="body">
+    <div style="display:none;" id="hide">
+    <form method="POST" onsubmit="answerTime()">
+        {% csrf_token %}
+        {% for question in list %}
+            <p class="question" id="{{ question.id }}">{{  question.question }}</p>
+            <p>
+                <input type="radio" name="{{ question.id }}" value="A" id="A{{ question.id }}" required>
+                <label for="A{{question.id}}">A</label>
+            </p>
+            <p>
+                <input type="radio" name="{{ question.id }}" value="B" id="B{{ question.id }}" required>
+                <label for="B{{question.id}}">B</label>
+            </p>
+            <p>
+                <input type="radio" name="{{ question.id }}" value="C" id="C{{ question.id }}" required>
+                <label for="C{{question.id}}">C</label>
+            </p>
+            <p>
+                <input type="radio" name="{{ question.id }}" value="D" id="D{{ question.id }}" required>
+                <label for="D{{question.id}}">D</label>
+            </p>
+        {% endfor %}
+        <input id="hidden" type="hidden" name="500">
+        <input id="hidden" type="hidden" name="quantity" value="{{quantity}}">
+        
+        <input type="submit" value="Submit Answers">
+        <a id="load" href="#body"></a>
+    </form>
+    </div>
+    <script src="{% static 'written_expression/script.js' %}"></script>
+    <script>
+        underlineAndLabel();
+        setTimeout(function(){
+            let aLoad = document.getElementById('load')
+            aLoad.click();
+            aLoad.outerHTML = '';
+            }, 200);
+        
+        var initial_time = (new Date()).getTime() / 1000;
+        function answerTime(){
+            let hidden = document.getElementById('hidden');
+            hidden.setAttribute('value', ((new Date()).getTime() / 1000) - initial_time);
+        }
+    </script>
+</body>
+</html>
